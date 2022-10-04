@@ -1,6 +1,8 @@
-# Tauri + React + Typescript
+# Tauri Markdown Editor
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+Markdown editor app using Tauri and React.
+
+The Tauri/Rust "backend" handles heavy lifting of operations like parsing markdown and sends data to "frontend" React app.
 
 ## Getting Started
 
