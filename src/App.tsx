@@ -4,12 +4,12 @@ import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
 
 function App() {
-  const [greetMsg, setGreetMsg] = useState("");
-  const [name, setName] = useState("");
+  const [html, setHtml] = useState("");
+  const [markdown, setMarkdown] = useState("");
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setGreetMsg(await invoke("greet", { name }));
+    setHtml(await invoke("greet", { markdown }));
   }
 
   return (
@@ -32,17 +32,16 @@ function App() {
 
       <div className="row">
         <div>
-          <input
+          <textarea
             id="greet-input"
-            onChange={(e) => setName(e.currentTarget.value)}
-            placeholder="Enter a name..."
+            onChange={(e) => setMarkdown(e.currentTarget.value)}
           />
           <button type="button" onClick={() => greet()}>
-            Greet
+            Convert to HTML
           </button>
         </div>
       </div>
-      <p>{greetMsg}</p>
+      <p>{html}</p>
     </div>
   );
 }
