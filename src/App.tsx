@@ -12,6 +12,10 @@ function App() {
     setHtml(await invoke("greet", { markdown }));
   }
 
+  const createMarkdownMarkup = () => ({
+    __html: html
+  })
+
   return (
     <div className="container">
       <h1>Welcome to Tauri!</h1>
@@ -41,7 +45,7 @@ function App() {
           </button>
         </div>
       </div>
-      <p>{html}</p>
+      <div dangerouslySetInnerHTML={createMarkdownMarkup()} />
     </div>
   );
 }
