@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/tauri";
 import "./App.css";
@@ -6,15 +6,35 @@ import "./App.css";
 function App() {
   const [html, setHtml] = useState("");
   const [markdown, setMarkdown] = useState("");
+  const [refreshCheck, setRefreshCheck] = useState(false);
 
   async function greet() {
-    // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-    setHtml(await invoke("greet", { markdown }));
+    setRefreshCheck(true);
   }
+
+  useEffect(() => {
+
+    const parseMarkdown = async () => {
+      setHtml(await invoke("greet", { markdown }));
+      setRefreshCheck(false);
+      console.log('new markdown');
+    }
+    console.log ('refreshed')
+    if(refreshCheck) {
+      parseMarkdown()
+      console.log ('parsing!')
+    }
+  }, [refreshCheck])
 
   const createMarkdownMarkup = () => ({
     __html: html
   })
+
+  const handleTextArea = (e) => {
+    setMarkdown(e.currentTarget.value)
+    setRefreshCheck(true);
+      console.log('need new markdown!');
+  };
 
   return (
     <div className="container">
@@ -38,7 +58,7 @@ function App() {
         <div>
           <textarea
             id="greet-input"
-            onChange={(e) => setMarkdown(e.currentTarget.value)}
+            onChange={handleTextArea}
           />
           <button type="button" onClick={() => greet()}>
             Convert to HTML
